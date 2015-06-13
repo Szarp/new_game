@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta >
+<link >
+
+<script >
+
+var
+   yyk=[0,50,200,300,50,200,300,50,200,300,50,200,300,50,200,300];
+   sgora=0;
+   sdol=0;
+   sprawo=0;
+   slewo=0;
+   klikrestart=0;
+   x=-100;
+   y=0;
+   x0=570;
+   y0=120;
+   r=100;
+   cwiartka=0;
+   x1=80;
+   
+  //tablicastrzalek=['strzlkagora','strzlkadol','strzlkaprawo','strzlkalewo];
+ function start(){
+  Last=new Date();
+  var z="cykl(0)";
+  setTimeout(z,50);
+ var element = document.getElementById( "strzalkagora" );
+  element.addEventListener("click",fstrzalkagora);
+  var element = document.getElementById( "strzalkadol" );
+  element.addEventListener("click",fstrzalkadol);
+  var element = document.getElementById( "strzalkaprawo" );
+  element.addEventListener("click",fstrzalkaprawo);
+  var element = document.getElementById( "strzalkalewo" );
+  element.addEventListener("click",fstrzalkalewo);
+   var element = document.getElementById( "srodkowy" );
+  element.addEventListener("click",zgaszony);
+document.onkeydown = runScript
+ }
+ function zgaszony(){
+    if (sgora==1){
+        var  d = document.getElementById("lewygorny");
+		 d.style.background="black"; sgora=0;
+    }
+	else if (sprawo==1){
+		var  d = document.getElementById("prawygorny");
+		d.style.background="black"; sprawo=0;
+	}
+	else if (slewo==1){
+		var  d = document.getElementById("prawydolny");
+		d.style.background="black"; slewo=0
+	}
+	else if (sdol==1){
+		var  d = document.getElementById("lewydolny");
+		d.style.background="black"; sdol=0;
+	}
+ }
+	function fstrzalkagora (){
+		sgora=1;
+		var  d = document.getElementById("kwadrat");
+		d.style.top="70px";
+//alert("ff")
+}
+	function fstrzalkaprawo (){
+		sprawo=1;
+		var  d = document.getElementById("kwadrat");
+		d.style.left="610px";
+//alert("ff")
+}
+	function fstrzalkalewo (){
+		sdol=1;
+		var  d = document.getElementById("kwadrat");
+		d.style.left="510px";
+//alert("ff")
+}
+	function fstrzalkadol (){
+		slewo=1;
+		var  d = document.getElementById("kwadrat");
+		d.style.top="170px";
+//alert("ff")
+}
+
+function runScript(e) {
+    //alert ("tak")
+    if (e.keyCode == 38) {//góra
+        var tb = document.getElementById("kwadrat");
+        tb.style.top="20px";
+		tb.style.left="560px";
+    }
+    else if (e.keyCode == 39) {//prawo
+        var tb = document.getElementById("kwadrat");
+        tb.style.left="660px";
+		tb.style.top="120px";
+    }
+    else if (e.keyCode == 40) {//dół
+        var tb = document.getElementById("kwadrat");
+        tb.style.top="220px";
+		tb.style.left="560px";
+    }
+    else if (e.keyCode == 37) {//lewo
+        var tb = document.getElementById("kwadrat");
+        tb.style.left="460px";
+		tb.style.top="120px";
+    }
+	else if (e.keyCode == 32){
+	  sprawdzcwiartke();
+    }
+	else {return true;}
+}
+function sprawdzcwiartke(){
+	if (x==-r){
+	   cwiartka=0;
+	   x1=80;
+	   numercwiartki();  
+	}
+	else if (x==x1){
+	  cwiartka+=1;
+	   numercwiartki();
+	}
+    else{
+	  numercwiartki();
+    }
+}
+function wypiszx(){
+var wynik= 	document.getElementById("wynik");
+   wynik.innerHTML=x;
+}
+ function numercwiartki(){//tutaj masz się zatrzymać przy cofaniu
+    if ((cwiartka == 0) && (x<r)) {
+	  x=x+10;
+	  x1=x1+1;
+	  var z=Math.pow(x,2)
+	  y=Math.sqrt(10000-z);
+	  var d = document.getElementById("kwadrat");
+	  d.style.top=(y+y0)+"px";
+	  d.style.left=(x+x0)+"px";
+	  wypiszx();
+	}
+	else if ((cwiartka == 1) && (x>-r)) {
+	  x=x-10;
+	  var z=Math.pow(x,2)
+	  y=Math.sqrt(10000-z);
+	  var d = document.getElementById("kwadrat");
+	  d.style.top=(-y+y0)+"px";
+	  d.style.left=(x+x0)+"px";
+	  wypiszx();
+	}
+	
+}
+
+</script>
+</head>
+</head>
+<body >
+<div id="wynik" style="position:absolute;left:760px;top:120px;" >0</div>
+<div id="kwadrat" style="position:absolute;left:460px;top:120px; width: 10px; height: 10px; background: blue;" ></div>
+<table>
+	<tr>
+		<td>
+			<div id="lewygorny" style="width: 100px; height: 100px; background: black;"></div>
+		</td>
+		<td>
+			<div id="strzalkagora" style="	width:0; height:0; border-left:50px solid transparent; border-right:50px solid transparent; border-bottom:100px solid red;"></div>
+		</td>
+		<td>
+			<div id="prawygorny" style="width: 100px; height: 100px; background: black;"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="strzalkalewo" style="width: 0; height: 0; border-top: 50px solid transparent; border-right: 100px solid red; border-bottom: 50px solid transparent;"></div>
+		</td>
+		<td>
+			<div id="srodkowy" style="width: 100px; height: 100px; background: black;"></div>
+		</td>
+			<td>
+		<div id="strzalkaprawo" style="width: 0; height: 0; border-top: 50px solid transparent; border-left: 100px solid red; border-bottom: 50px solid transparent;"></div>
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<div id="lewydolny" style="width: 100px; height: 100px; background: black;"></div>
+		</td>
+		<td>
+		<div id="strzalkadol" style="width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-top: 100px solid red;"></div>
+		</td>
+		<td>
+		<div id="prawydolny" style="width: 100px; height: 100px; background: black;"></div>
+		</td>
+	</tr>
+</table>
+
+<input id="scriptBox" type="text" onkeypress="return runScript(event)" />
+<script>
+window.onload = start(0);
+</script>
+
+</body>
