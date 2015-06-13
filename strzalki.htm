@@ -13,14 +13,14 @@ var
    sprawo=0;
    slewo=0;
    klikrestart=0;
-   x=-100;
-   y=0;
+   left=320;
+   y=20;
    x0=570;
    y0=120;
    r=100;
    cwiartka=0;
    x1=80;
-   
+   var array=new Array(100);
   //tablicastrzalek=['strzlkagora','strzlkadol','strzlkaprawo','strzlkalewo];
  function start(){
   Last=new Date();
@@ -36,7 +36,16 @@ var
   element.addEventListener("click",fstrzalkalewo);
    var element = document.getElementById( "srodkowy" );
   element.addEventListener("click",zgaszony);
-document.onkeydown = runScript
+document.onkeydown = runScript;
+ }
+ function wypelnij(){
+	 var x=0;
+	 for(var i=0; i<100; i++){
+	 array[x]=x;
+	 x++;
+	 }
+	 console.log(array);
+	 shuffle(array);
  }
  function zgaszony(){
     if (sgora==1){
@@ -57,6 +66,7 @@ document.onkeydown = runScript
 	}
  }
 	function fstrzalkagora (){
+		wypelnij();
 		sgora=1;
 		var  d = document.getElementById("kwadrat");
 		d.style.top="70px";
@@ -83,78 +93,87 @@ document.onkeydown = runScript
 
 function runScript(e) {
     //alert ("tak")
-    if (e.keyCode == 38) {//góra
+	
+    if (e.keyCode == 87) {//góra W
+		//shuffle(array);
+		y-=20;
+		if (checkPossition_y()==false){
+		y+=20;
+		}
         var tb = document.getElementById("kwadrat");
-        tb.style.top="20px";
-		tb.style.left="560px";
+        tb.style.top=y+"px";
+		//tb.style.left="560px";
     }
-    else if (e.keyCode == 39) {//prawo
+    else if (e.keyCode == 68) {//prawo D
+		left+=20;
+		if (checkPossition_x()==false){
+		//console.log("da sie");
+		left-=20;
+		}
         var tb = document.getElementById("kwadrat");
-        tb.style.left="660px";
-		tb.style.top="120px";
+        tb.style.left=left+"px";
+		//tb.style.top=x+"px";
     }
-    else if (e.keyCode == 40) {//dół
-        var tb = document.getElementById("kwadrat");
-        tb.style.top="220px";
-		tb.style.left="560px";
+    else if (e.keyCode == 83) {//dół S
+	    y+=20;
+		if (checkPossition_y()==false){
+		y-=20;
+		}
+		var tb = document.getElementById("kwadrat");
+        tb.style.top=y+"px";
+		//tb.style.left="560px";
     }
-    else if (e.keyCode == 37) {//lewo
-        var tb = document.getElementById("kwadrat");
-        tb.style.left="460px";
-		tb.style.top="120px";
-    }
-	else if (e.keyCode == 32){
-	  sprawdzcwiartke();
+    else if (e.keyCode == 65) {//lewo A
+		left-=20;        
+		if (checkPossition_x()==false){
+		left+=20;
+		console.log("da sie");
+		}
+
+		var tb = document.getElementById("kwadrat");
+        tb.style.left=left+"px";
+		//tb.style.top="120px";
     }
 	else {return true;}
 }
-function sprawdzcwiartke(){
-	if (x==-r){
-	   cwiartka=0;
-	   x1=80;
-	   numercwiartki();  
+function checkPossition_x(){
+	if (left<320 || left >520){
+		return false;
 	}
-	else if (x==x1){
-	  cwiartka+=1;
-	   numercwiartki();
-	}
-    else{
-	  numercwiartki();
-    }
+	else{return true;}
 }
-function wypiszx(){
-var wynik= 	document.getElementById("wynik");
-   wynik.innerHTML=x;
-}
- function numercwiartki(){//tutaj masz się zatrzymać przy cofaniu
-    if ((cwiartka == 0) && (x<r)) {
-	  x=x+10;
-	  x1=x1+1;
-	  var z=Math.pow(x,2)
-	  y=Math.sqrt(10000-z);
-	  var d = document.getElementById("kwadrat");
-	  d.style.top=(y+y0)+"px";
-	  d.style.left=(x+x0)+"px";
-	  wypiszx();
-	}
-	else if ((cwiartka == 1) && (x>-r)) {
-	  x=x-10;
-	  var z=Math.pow(x,2)
-	  y=Math.sqrt(10000-z);
-	  var d = document.getElementById("kwadrat");
-	  d.style.top=(-y+y0)+"px";
-	  d.style.left=(x+x0)+"px";
-	  wypiszx();
-	}
+function checkPossition_y(){
+
+		if (y<20 ||y>220){
 	
+	//console.log("outof");
+	return false;
+	}
+	else{return true;}
 }
+function shuffle(array){
+var z,x,y;
+	for(var i=0; i<1000; i++){
+		y=Math.floor(Math.random() * 100);
+		z=y;
+		if (y==99){
+		z=-1;
+		}
+		x=array[y];
+		array[y]=array[z+1];
+		array[z+1]=x;
+	}
+console.log(array);	
+}
+
+
 
 </script>
 </head>
 </head>
 <body >
 <div id="wynik" style="position:absolute;left:760px;top:120px;" >0</div>
-<div id="kwadrat" style="position:absolute;left:460px;top:120px; width: 10px; height: 10px; background: blue;" ></div>
+<div id="kwadrat" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: blue;" ></div>
 <table>
 	<tr>
 		<td>
