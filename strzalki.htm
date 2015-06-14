@@ -7,21 +7,16 @@
 <script >
 
 var
-   yyk=[0,50,200,300,50,200,300,50,200,300,50,200,300,50,200,300];
    sgora=0;
    sdol=0;
    sprawo=0;
    slewo=0;
-   klikrestart=0;
-   left=320;
+   x=320;
    y=20;
-   x0=570;
-   y0=120;
-   r=100;
-   cwiartka=0;
-   x1=80;
    var array=new Array(100);
-  //tablicastrzalek=['strzlkagora','strzlkadol','strzlkaprawo','strzlkalewo];
+
+   
+   		fillArray();
  function start(){
   Last=new Date();
   var z="cykl(0)";
@@ -34,139 +29,143 @@ var
   element.addEventListener("click",fstrzalkaprawo);
   var element = document.getElementById( "strzalkalewo" );
   element.addEventListener("click",fstrzalkalewo);
-   var element = document.getElementById( "srodkowy" );
-  element.addEventListener("click",zgaszony);
-document.onkeydown = runScript;
+ 
+ document.onkeydown = runScript;
  }
- function wypelnij(){
+ function fillArray(){
 	 var x=0;
-	 for(var i=0; i<100; i++){
-	 array[x]=x;
-	 x++;
-	 }
+		 for(var i=0; i<100; i++){
+			 array[x]=x;
+			 x++;
+		}
 	 console.log(array);
 	 shuffle(array);
  }
- function zgaszony(){
-    if (sgora==1){
-        var  d = document.getElementById("lewygorny");
-		 d.style.background="black"; sgora=0;
-    }
-	else if (sprawo==1){
-		var  d = document.getElementById("prawygorny");
-		d.style.background="black"; sprawo=0;
-	}
-	else if (slewo==1){
-		var  d = document.getElementById("prawydolny");
-		d.style.background="black"; slewo=0
-	}
-	else if (sdol==1){
-		var  d = document.getElementById("lewydolny");
-		d.style.background="black"; sdol=0;
-	}
- }
-	function fstrzalkagora (){
-		wypelnij();
+ 	function fstrzalkagora (){//gora
+		getFromPossition();	
 		sgora=1;
-		var  d = document.getElementById("kwadrat");
-		d.style.top="70px";
-//alert("ff")
 }
 	function fstrzalkaprawo (){
 		sprawo=1;
-		var  d = document.getElementById("kwadrat");
-		d.style.left="610px";
-//alert("ff")
 }
 	function fstrzalkalewo (){
 		sdol=1;
-		var  d = document.getElementById("kwadrat");
-		d.style.left="510px";
-//alert("ff")
 }
-	function fstrzalkadol (){
-		slewo=1;
-		var  d = document.getElementById("kwadrat");
-		d.style.top="170px";
-//alert("ff")
-}
+	function fstrzalkadol (){//dol
 
+		slewo=1;
+}
+function findFirstPossition(number){
+	var w=0;
+	for(var i=0; i<100; i++){
+		if(array[w]==number){
+			findSecendPossition(w);
+			return;
+		}
+		else{ 
+			w++
+		}	
+	}
+}
+function findSecendPossition(w){
+	var newNumber;
+	var possition;
+	if(w>50){
+		possition=w-50;
+	}
+	else{
+		possition=w+50;
+	}
+	newNumber=array[possition];
+	getFromNumber(newNumber);	
+}
+function applyNewPossition(coord_x,coord_y){
+	x=coord_x*20+320;
+	y=coord_y*20+20;
+	var tb = document.getElementById("kwadrat");
+		tb.style.top=y+"px";
+		tb.style.left=x+"px";
+
+}
 function runScript(e) {
-    //alert ("tak")
-	
     if (e.keyCode == 87) {//góra W
 		//shuffle(array);
 		y-=20;
-		if (checkPossition_y()==false){
-		y+=20;
-		}
+			if (checkPossition_y()==false){
+				y+=20;
+			}
         var tb = document.getElementById("kwadrat");
         tb.style.top=y+"px";
-		//tb.style.left="560px";
     }
+	else if (e.KeyCode == 66){ //B
+
+	}
     else if (e.keyCode == 68) {//prawo D
-		left+=20;
-		if (checkPossition_x()==false){
-		//console.log("da sie");
-		left-=20;
-		}
+		x+=20;
+			if (checkPossition_x()==false){
+				x-=20;
+			}
         var tb = document.getElementById("kwadrat");
-        tb.style.left=left+"px";
-		//tb.style.top=x+"px";
+        tb.style.left=x+"px";
     }
     else if (e.keyCode == 83) {//dół S
 	    y+=20;
-		if (checkPossition_y()==false){
-		y-=20;
-		}
+			if (checkPossition_y()==false){
+				y-=20;
+			}
 		var tb = document.getElementById("kwadrat");
         tb.style.top=y+"px";
-		//tb.style.left="560px";
     }
     else if (e.keyCode == 65) {//lewo A
-		left-=20;        
-		if (checkPossition_x()==false){
-		left+=20;
-		console.log("da sie");
-		}
-
+		x-=20;        
+			if (checkPossition_x()==false){
+				x+=20;
+			}
 		var tb = document.getElementById("kwadrat");
-        tb.style.left=left+"px";
-		//tb.style.top="120px";
+        tb.style.left=x+"px";
     }
 	else {return true;}
 }
 function checkPossition_x(){
-	if (left<320 || left >520){
+	if (x< 320 || x >500){
 		return false;
 	}
 	else{return true;}
 }
 function checkPossition_y(){
-
-		if (y<20 ||y>220){
-	
-	//console.log("outof");
-	return false;
+	if (y<20 ||y>200){
+		return false;
 	}
 	else{return true;}
 }
 function shuffle(array){
-var z,x,y;
-	for(var i=0; i<1000; i++){
-		y=Math.floor(Math.random() * 100);
-		z=y;
-		if (y==99){
-		z=-1;
-		}
+	var z,x,y;
+		for(var i=0; i<1000; i++){
+			y=Math.floor(Math.random() * 100);
+			z=y;
+			if (y==99){
+			z=-1;
+			}
 		x=array[y];
 		array[y]=array[z+1];
 		array[z+1]=x;
+		}
+		console.log(array);
+	
 	}
-console.log(array);	
+function getFromPossition(){
+	var new_x,new_y, number;
+	new_x=(x-320)/20;
+	new_y=(y-20)/20;
+	number=new_x*10+new_y
+	findFirstPossition(number);
 }
-
-
+function getFromNumber(w){
+if (w==100){ w=99;}
+var remainder = w%10;
+var factor = (w-remainder)/10
+applyNewPossition(remainder,factor);
+}
 
 </script>
 </head>
