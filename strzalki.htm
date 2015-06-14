@@ -6,17 +6,21 @@
 
 <script >
 
-var
+var			//varibles for whole document
    sgora=0;
    sdol=0;
    sprawo=0;
    slewo=0;
    x=320;
    y=20;
+   parPlayer=1;
    var array=new Array(100);
-
-   
-   		fillArray();
+   settings();
+	function settings(){ //functions whith will be done once
+   	
+		fillArray();
+		
+	}
  function start(){
   Last=new Date();
   var z="cykl(0)";
@@ -32,7 +36,7 @@ var
  
  document.onkeydown = runScript;
  }
- function fillArray(){
+ function fillArray(){  //make array[0 - 99]
 	 var x=0;
 		 for(var i=0; i<100; i++){
 			 array[x]=x;
@@ -42,7 +46,7 @@ var
 	 shuffle(array);
  }
  	function fstrzalkagora (){//gora
-		getFromPossition();	
+
 		sgora=1;
 }
 	function fstrzalkaprawo (){
@@ -55,11 +59,11 @@ var
 
 		slewo=1;
 }
-function findFirstPossition(number){
+function findFirstPossition(number,tb){ //return first number from coords
 	var w=0;
 	for(var i=0; i<100; i++){
 		if(array[w]==number){
-			findSecendPossition(w);
+			findSecendPossition(w,tb);
 			return;
 		}
 		else{ 
@@ -67,7 +71,7 @@ function findFirstPossition(number){
 		}	
 	}
 }
-function findSecendPossition(w){
+function findSecendPossition(w,tb){  //return secend number from first number
 	var newNumber;
 	var possition;
 	if(w>50){
@@ -77,68 +81,84 @@ function findSecendPossition(w){
 		possition=w+50;
 	}
 	newNumber=array[possition];
-	getFromNumber(newNumber);	
+	getFromNumber(newNumber,tb);	
 }
-function applyNewPossition(coord_x,coord_y){
+function applyNewPossition(coord_x,coord_y, tb){ //Chnge new coords for possition
 	x=coord_x*20+320;
 	y=coord_y*20+20;
-	var tb = document.getElementById("kwadrat");
+	//var tb = document.getElementById("player_1");
 		tb.style.top=y+"px";
 		tb.style.left=x+"px";
 
 }
-function runScript(e) {
-    if (e.keyCode == 87) {//góra W
-		//shuffle(array);
-		y-=20;
-			if (checkPossition_y()==false){
-				y+=20;
-			}
-        var tb = document.getElementById("kwadrat");
-        tb.style.top=y+"px";
-    }
-	else if (e.KeyCode == 66){ //B
-
+function runScript(e) {  // Set up keys
+    if(e.keyCode==87||e.keyCode==32||e.keyCode==68||e.keyCode==83||e.keyCode==65){
+		
+		var tb=changePlayer();
+		if (e.keyCode == 87) {//top W
+			//shuffle(array);
+			y-=20;
+				if (checkPossition_y()==false){
+					y+=20;
+				}
+			//var tb = document.getElementById("player_1");
+			tb.style.top=y+"px";
+		}
+		else if (e.keyCode == 32){ //Space
+			getFromPossition(tb);	
+		}
+		else if (e.keyCode == 68) {//left D
+			x+=20;
+				if (checkPossition_x()==false){
+					x-=20;
+				}
+			//var tb = document.getElementById("player_1");
+			tb.style.left=x+"px";
+		}
+		else if (e.keyCode == 83) {//down S
+			y+=20;
+				if (checkPossition_y()==false){
+					y-=20;
+				}
+			//var tb = document.getElementById("player_1");
+			tb.style.top=y+"px";
+		}
+		else if (e.keyCode == 65) {//right A
+			x-=20;        
+				if (checkPossition_x()==false){
+					x+=20;
+				}
+			//var tb = document.getElementById("player_1");
+			tb.style.left=x+"px";
+			
+		}
+		//changePlayer(parPlayer);
 	}
-    else if (e.keyCode == 68) {//prawo D
-		x+=20;
-			if (checkPossition_x()==false){
-				x-=20;
-			}
-        var tb = document.getElementById("kwadrat");
-        tb.style.left=x+"px";
-    }
-    else if (e.keyCode == 83) {//dół S
-	    y+=20;
-			if (checkPossition_y()==false){
-				y-=20;
-			}
-		var tb = document.getElementById("kwadrat");
-        tb.style.top=y+"px";
-    }
-    else if (e.keyCode == 65) {//lewo A
-		x-=20;        
-			if (checkPossition_x()==false){
-				x+=20;
-			}
-		var tb = document.getElementById("kwadrat");
-        tb.style.left=x+"px";
-    }
 	else {return true;}
 }
-function checkPossition_x(){
+/*function keepPlayer(){
+	if(parPlayer==2){
+		var tb = document.getElementById("player_1");
+		return(tb);
+	}
+	else{
+		var tb = document.getElementById("player_2");
+		return(tb);
+	}
+}*/
+function checkPossition_x(){ // Set up range of playing board 
 	if (x< 320 || x >500){
 		return false;
 	}
 	else{return true;}
 }
-function checkPossition_y(){
+function checkPossition_y(){ // Set up range of playing board for
 	if (y<20 ||y>200){
 		return false;
 	}
 	else{return true;}
 }
-function shuffle(array){
+function shuffle(array){ //Shuffle array
 	var z,x,y;
 		for(var i=0; i<1000; i++){
 			y=Math.floor(Math.random() * 100);
@@ -153,26 +173,39 @@ function shuffle(array){
 		console.log(array);
 	
 	}
-function getFromPossition(){
+function getFromPossition(tb){ //Chnge possition for number
 	var new_x,new_y, number;
 	new_x=(x-320)/20;
 	new_y=(y-20)/20;
 	number=new_x*10+new_y
-	findFirstPossition(number);
+	findFirstPossition(number,tb);
 }
-function getFromNumber(w){
+function getFromNumber(w,tb){ //Change number for coords
 if (w==100){ w=99;}
 var remainder = w%10;
 var factor = (w-remainder)/10
-applyNewPossition(remainder,factor);
+applyNewPossition(remainder,factor,tb);
 }
-
+function changePlayer (){
+	if(parPlayer==1){
+		parPlayer=2;
+		var tb = document.getElementById("player_1");
+		return(tb);
+	}
+	else{
+		parPlayer=1;
+		var tb = document.getElementById("player_2");
+		return(tb);	
+	}
+	console.log("changePlayer");
+}
 </script>
 </head>
 </head>
 <body >
 <div id="wynik" style="position:absolute;left:760px;top:120px;" >0</div>
-<div id="kwadrat" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: blue;" ></div>
+<div id="player_1" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: blue;" ></div>
+<div id="player_2" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: red;" ></div>
 <table>
 	<tr>
 		<td>
