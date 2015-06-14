@@ -7,15 +7,29 @@
 <script >
 
 var			//varibles for whole document
-   sgora=0;
-   sdol=0;
-   sprawo=0;
-   slewo=0;
-   x=320;
-   y=20;
    parPlayer=1;
    var array=new Array(100);
+var player_1 = { // Struct for player 1
+    id:x=1,
+    x_coord:320,
+    y_coord:20,
+}; 
+var player_2 = { //Struct for player 2
+    id:2,
+    x_coord:320,
+    y_coord:20,
+}; 
    settings();
+function checkPlayer(player){ // Change id for getElement
+	if(player.id==1){
+		var tb = document.getElementById("player_1");
+		return (tb);
+	}
+	else{
+		var tb = document.getElementById("player_2");
+	    return(tb);
+    }
+}
 	function settings(){ //functions whith will be done once
    	
 		fillArray();
@@ -25,14 +39,6 @@ var			//varibles for whole document
   Last=new Date();
   var z="cykl(0)";
   setTimeout(z,50);
- var element = document.getElementById( "strzalkagora" );
-  element.addEventListener("click",fstrzalkagora);
-  var element = document.getElementById( "strzalkadol" );
-  element.addEventListener("click",fstrzalkadol);
-  var element = document.getElementById( "strzalkaprawo" );
-  element.addEventListener("click",fstrzalkaprawo);
-  var element = document.getElementById( "strzalkalewo" );
-  element.addEventListener("click",fstrzalkalewo);
  
  document.onkeydown = runScript;
  }
@@ -45,25 +51,12 @@ var			//varibles for whole document
 	 console.log(array);
 	 shuffle(array);
  }
- 	function fstrzalkagora (){//gora
 
-		sgora=1;
-}
-	function fstrzalkaprawo (){
-		sprawo=1;
-}
-	function fstrzalkalewo (){
-		sdol=1;
-}
-	function fstrzalkadol (){//dol
-
-		slewo=1;
-}
-function findFirstPossition(number,tb){ //return first number from coords
+function findFirstPossition(number,player){ //return first number from coords
 	var w=0;
 	for(var i=0; i<100; i++){
 		if(array[w]==number){
-			findSecendPossition(w,tb);
+			findSecendPossition(w,player);
 			return;
 		}
 		else{ 
@@ -71,88 +64,81 @@ function findFirstPossition(number,tb){ //return first number from coords
 		}	
 	}
 }
-function findSecendPossition(w,tb){  //return secend number from first number
+function findSecendPossition(w,player){  //return secend number from first number
 	var newNumber;
 	var possition;
 	if(w>50){
 		possition=w-50;
 	}
-	else{
+	else{	
 		possition=w+50;
 	}
 	newNumber=array[possition];
-	getFromNumber(newNumber,tb);	
+	getFromNumber(newNumber,player);	
 }
-function applyNewPossition(coord_x,coord_y, tb){ //Chnge new coords for possition
-	x=coord_x*20+320;
-	y=coord_y*20+20;
+function applyNewPossition(coord_x,coord_y,player){ //Chnge new coords for possition
+	var tb=checkPlayer(player);
+	player.x_coord=coord_x*20+320;
+	player.y_coord=coord_y*20+20;
 	//var tb = document.getElementById("player_1");
-		tb.style.top=y+"px";
-		tb.style.left=x+"px";
+		tb.style.top=player.y_coord+"px";
+		tb.style.left=player.x_coord+"px";
 
 }
 function runScript(e) {  // Set up keys
     if(e.keyCode==87||e.keyCode==32||e.keyCode==68||e.keyCode==83||e.keyCode==65){
 		
-		var tb=changePlayer();
+		var player=changePlayer(); 
+		var tb=checkPlayer(player);
 		if (e.keyCode == 87) {//top W
 			//shuffle(array);
-			y-=20;
-				if (checkPossition_y()==false){
-					y+=20;
+			player.y_coord-=20;
+				if (checkPossition_y(player.y_coord)==false){
+					player.y_coord+=20;
 				}
 			//var tb = document.getElementById("player_1");
-			tb.style.top=y+"px";
+			tb.style.top=player.y_coord+"px";
 		}
 		else if (e.keyCode == 32){ //Space
-			getFromPossition(tb);	
+			getFromPossition(player);	
 		}
 		else if (e.keyCode == 68) {//left D
-			x+=20;
-				if (checkPossition_x()==false){
-					x-=20;
+			player.x_coord+=20;
+				if (checkPossition_x(player.x_coord)==false){
+					player.x_coord-=20;
 				}
 			//var tb = document.getElementById("player_1");
-			tb.style.left=x+"px";
+			tb.style.left=player.x_coord+"px";
 		}
 		else if (e.keyCode == 83) {//down S
-			y+=20;
-				if (checkPossition_y()==false){
-					y-=20;
+			player.y_coord+=20;
+				if (checkPossition_y(player.y_coord)==false){
+					player.y_coord-=20;
 				}
 			//var tb = document.getElementById("player_1");
-			tb.style.top=y+"px";
+			tb.style.top=player.y_coord+"px";
 		}
 		else if (e.keyCode == 65) {//right A
-			x-=20;        
-				if (checkPossition_x()==false){
-					x+=20;
+			player.x_coord-=20;        
+				if (checkPossition_x(player.x_coord)==false){
+					player.x_coord+=20;
 				}
 			//var tb = document.getElementById("player_1");
-			tb.style.left=x+"px";
+			tb.style.left=player.x_coord+"px";
 			
 		}
 		//changePlayer(parPlayer);
 	}
 	else {return true;}
 }
-/*function keepPlayer(){
-	if(parPlayer==2){
-		var tb = document.getElementById("player_1");
-		return(tb);
-	}
-	else{
-		var tb = document.getElementById("player_2");
-		return(tb);
-	}
-}*/
-function checkPossition_x(){ // Set up range of playing board 
+
+function checkPossition_x(x){ // Set up range of playing board 
 	if (x< 320 || x >500){
 		return false;
 	}
 	else{return true;}
 }
-function checkPossition_y(){ // Set up range of playing board for
+function checkPossition_y(y){ // Set up range of playing board for
 	if (y<20 ||y>200){
 		return false;
 	}
@@ -173,74 +159,40 @@ function shuffle(array){ //Shuffle array
 		console.log(array);
 	
 	}
-function getFromPossition(tb){ //Chnge possition for number
+function getFromPossition(player){ //Chnge possition for number
+	var x=player.x_coord;
+	var y=player.y_coord;
 	var new_x,new_y, number;
 	new_x=(x-320)/20;
 	new_y=(y-20)/20;
 	number=new_x*10+new_y
-	findFirstPossition(number,tb);
+	findFirstPossition(number,player);
 }
-function getFromNumber(w,tb){ //Change number for coords
+function getFromNumber(w,player){ //Change number for coords
 if (w==100){ w=99;}
 var remainder = w%10;
 var factor = (w-remainder)/10
-applyNewPossition(remainder,factor,tb);
+applyNewPossition(factor,remainder,player);
 }
-function changePlayer (){
+function changePlayer (){  //Change player after movement 
 	if(parPlayer==1){
 		parPlayer=2;
-		var tb = document.getElementById("player_1");
-		return(tb);
+		
+		return(player_1);
 	}
 	else{
 		parPlayer=1;
-		var tb = document.getElementById("player_2");
-		return(tb);	
-	}
+		return(player_2);	
+	} 
 	console.log("changePlayer");
 }
 </script>
 </head>
 </head>
 <body >
-<div id="wynik" style="position:absolute;left:760px;top:120px;" >0</div>
+
 <div id="player_1" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: blue;" ></div>
 <div id="player_2" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: red;" ></div>
-<table>
-	<tr>
-		<td>
-			<div id="lewygorny" style="width: 100px; height: 100px; background: black;"></div>
-		</td>
-		<td>
-			<div id="strzalkagora" style="	width:0; height:0; border-left:50px solid transparent; border-right:50px solid transparent; border-bottom:100px solid red;"></div>
-		</td>
-		<td>
-			<div id="prawygorny" style="width: 100px; height: 100px; background: black;"></div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div id="strzalkalewo" style="width: 0; height: 0; border-top: 50px solid transparent; border-right: 100px solid red; border-bottom: 50px solid transparent;"></div>
-		</td>
-		<td>
-			<div id="srodkowy" style="width: 100px; height: 100px; background: black;"></div>
-		</td>
-			<td>
-		<div id="strzalkaprawo" style="width: 0; height: 0; border-top: 50px solid transparent; border-left: 100px solid red; border-bottom: 50px solid transparent;"></div>
-		</td>
-	</tr>
-		<tr>
-		<td>
-		<div id="lewydolny" style="width: 100px; height: 100px; background: black;"></div>
-		</td>
-		<td>
-		<div id="strzalkadol" style="width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-top: 100px solid red;"></div>
-		</td>
-		<td>
-		<div id="prawydolny" style="width: 100px; height: 100px; background: black;"></div>
-		</td>
-	</tr>
-</table>
 
 <input id="scriptBox" type="text" onkeypress="return runScript(event)" />
 <script>
