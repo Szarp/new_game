@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta >
+<link >
+
+<script >
+
+var			//varibles for whole document
+   x=0;
+   y=0;
+   var array=new Array(100);
+   settings();
+	function settings(){ //functions whith will be done once
+   	
+	}
+ function start(){
+  Last=new Date();
+  var z="cykl(0)";
+  setTimeout(z,50);
+  document.onkeydown = runScript;
+} 
+
+function runScript(e) {  // Set up keys
+    if(e.keyCode==87||e.keyCode==32||e.keyCode==68||e.keyCode==83||e.keyCode==65){
+		if (e.keyCode == 32){ //Space
+		tableCreate();
+		}
+		clearStyle();
+		if (e.keyCode == 87) {//top W
+		x--;
+		if (checkPossition_x()==false){
+			x++;
+		}
+		moveCursor();
+		}
+
+		else if (e.keyCode == 68) {//left D
+		y++;
+		if (checkPossition_y()==false){
+			y--;
+		}
+		
+		moveCursor();
+		}
+		else if (e.keyCode == 83) {//down S
+		x++;
+		if (checkPossition_x()==false){
+			x--;
+		}
+		
+		moveCursor();
+		}
+		else if (e.keyCode == 65) {//right A
+		y--;
+		if (checkPossition_y()==false){
+			y++;
+		}
+		
+		moveCursor();
+		}
+		//changePlayer(parPlayer);
+	}
+	else {return true;}
+}
+function checkPossition_x(){ // Set up range of playing board 
+	if (x< 0 || x >14){
+		return false;
+	}
+	else{return true;}
+}
+function checkPossition_y(){ // Set up range of playing board for
+	if (y<0 ||y>14){
+		return false;
+	}
+	else{return true;}
+}
+
+function clearStyle(){
+var a=document.getElementById("x"+x+"_"+y);
+	a.style.color="black";
+
+}
+	
+function changeStyle(a){
+	a.style.color="red";
+
+}
+function moveCursor (){
+var a=document.getElementById("x"+x+"_"+y);
+	changeStyle(a);
+}
+
+
+function tableCreate() {
+        //body reference 
+        var body = document.getElementsByTagName("body")[0];
+
+        // create elements <table> and a <tbody>
+        var tbl     = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+
+        // cells creation
+        for (var j = 0; j < 15; j++) {
+            // table row creation
+            var row = document.createElement("tr");
+
+            for (var i = 0; i < 15; i++) {
+                // create element <td> and text node 
+                //Make text node the contents of <td> element
+                // put <td> at end of the table row
+             var cell = document.createElement("td");
+				cell.id="x"+j+"_"+i;  //create id for all td elements
+                  var cellText = document.createTextNode(+j+","+i); 
+
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+            }
+
+            //row added to end of table body
+            tblBody.appendChild(row);
+        }
+
+        // append the <tbody> inside the <table>
+        tbl.appendChild(tblBody);
+        // put <table> in the <body>
+        body.appendChild(tbl);
+        // tbl border attribute to 
+        tbl.setAttribute("border", "2");
+    }
+
+</script>
+<style>
+table, td {
+    border: 1px solid black;
+}
+</style>
+</head>
+</head>
+<body >
+
+
+<div id="player_1" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: blue;" ></div>
+<div id="player_2" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: red;" ></div>
+
+<script>
+window.onload = start(0);
+</script>
+
+</body>
