@@ -2,17 +2,21 @@
 <html>
 <head>
   <meta >
-<link >
+<link   rel="stylesheet" type="text/css" href="5_in_row.css">
 
 <script >
 
 var			//varibles for whole document
+   array_x=0;
+   array_o=0;
    x=0;
+   player=0;
    y=0;
+   array_xIndex=0;
+   array_oIndex=0;
    var array=new Array(100);
    settings();
 	function settings(){ //functions whith will be done once
-   	
 	}
  function start(){
   Last=new Date();
@@ -22,7 +26,11 @@ var			//varibles for whole document
 } 
 
 function runScript(e) {  // Set up keys
-    if(e.keyCode==87||e.keyCode==32||e.keyCode==68||e.keyCode==83||e.keyCode==65){
+    if(e.keyCode==13){
+	putMark();
+	console.log("jestem");
+	}
+	if(e.keyCode==87||e.keyCode==32||e.keyCode==68||e.keyCode==83||e.keyCode==65){
 		if (e.keyCode == 32){ //Space
 		tableCreate();
 		}
@@ -63,6 +71,37 @@ function runScript(e) {  // Set up keys
 	}
 	else {return true;}
 }
+function changePlayer(a){
+	var mark;
+	if(player==0){
+		player=1;
+		mark="cross";
+	}
+	else{
+		player=0;
+		mark="circle";
+	}
+	return(mark);
+}
+function putMark(){
+	var w="x"+x+"_"+y;
+	var a=document.getElementById("x"+x+"_"+y);
+	var mark=changePlayer(a);
+	a.className=mark
+	addToArray(w,mark);
+	//console.log(w);
+}
+function addToArray(element,mark){
+	if(mark=="X"){
+	array_x[array_xIndex]=element;
+	array_xIndex++;
+	}
+	else{
+	array_o[array_oIndex]=element;
+	array_oIndex++;
+	}
+console.log(array_o);
+}
 function checkPossition_x(){ // Set up range of playing board 
 	if (x< 0 || x >14){
 		return false;
@@ -97,7 +136,8 @@ function tableCreate() {
         var body = document.getElementsByTagName("body")[0];
 
         // create elements <table> and a <tbody>
-        var tbl     = document.createElement("table");
+        var tbl   = document.createElement("table");
+		tbl.className="table";
         var tblBody = document.createElement("tbody");
 
         // cells creation
@@ -111,6 +151,7 @@ function tableCreate() {
                 // put <td> at end of the table row
              var cell = document.createElement("td");
 				cell.id="x"+j+"_"+i;  //create id for all td elements
+				cell.className="normal";
                   var cellText = document.createTextNode(+j+","+i); 
 
                 cell.appendChild(cellText);
@@ -131,9 +172,7 @@ function tableCreate() {
 
 </script>
 <style>
-table, td {
-    border: 1px solid black;
-}
+
 </style>
 </head>
 </head>
