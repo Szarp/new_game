@@ -7,8 +7,10 @@
 <script >
 
 var			//varibles for whole document
-   array_x=0;
-   array_o=0;
+   botArray=[0];
+   leftArray=[0];
+   array_x=[0];
+   array_o=[0];
    x=0;
    player=0;
    y=0;
@@ -24,54 +26,102 @@ var			//varibles for whole document
   setTimeout(z,50);
   document.onkeydown = runScript;
 } 
-
+function cykl(x){
+  var y=x+2;
+  var z="cykl("+y+")";
+  setTimeout( z ,50);
+ }
+ 
+ function checkIfWin(){
+ right_slant();
+ left_slant();
+ top_bot();
+ right();
+ }
+ function checkPar_y(array){
+ 	 var y1=array%100;
+	return(y1);
+ 
+ 
+ }
+ function checkPar_x(array){
+ 	 var y1=array%100;
+	 var x1=(array-y1)/100;
+	return(x1);
+ }
+ function left_right(){
+	 var y1=array_x[0]%100;
+	 var x1=(array_x[0]-y1)/100;
+	 var k=0;
+	 var i=0;
+	 for(i=0; i<array_x.length;  i++){  
+		 var new_y=checkPar_y(array_x[i]);
+		 if(y1-5<new_y && new_y<y1+5){
+			botArray[k]=array_x[i];
+			 k++;
+		 }
+	}
+	console.log(botArray);
+ }
+ function top_bot(){
+	 var y1=array_x[0]%100;
+	 var x1=(array_x[0]-y1)/100;
+	 var k=0;
+	 var i=0;
+	 for(i=0; i<array_x.length;  i++){  
+		 var new_x=checkPar_x(array_x[i]);
+		 if(x1-5<new_x && new_x<x1+5){
+			leftArray[k]=array_x[i];
+			 k++;
+		 }
+	}
+	console.log(leftArray);
+ }
 function runScript(e) {  // Set up keys
-    if(e.keyCode==13){
-	putMark();
-	console.log("jestem");
+    if(e.keyCode==13){ //enter
+		putMark();
+		//top_bot();
+		left_right();
 	}
 	if(e.keyCode==87||e.keyCode==32||e.keyCode==68||e.keyCode==83||e.keyCode==65){
 		if (e.keyCode == 32){ //Space
-		tableCreate();
+			tableCreate();
 		}
-		clearStyle();
+		clearCursor();
 		if (e.keyCode == 87) {//top W
-		x--;
-		if (checkPossition_x()==false){
-			x++;
-		}
-		moveCursor();
+			x--;
+			if (checkPossition_x()==false){
+				x++;
+			}
+			moveCursor();
 		}
 
-		else if (e.keyCode == 68) {//left D
-		y++;
-		if (checkPossition_y()==false){
-			y--;
-		}
-		
-		moveCursor();
+		if (e.keyCode == 68) {//left D
+			y++;
+			if (checkPossition_y()==false){
+				y--;
+			}	
+			moveCursor();
 		}
 		else if (e.keyCode == 83) {//down S
-		x++;
-		if (checkPossition_x()==false){
-			x--;
-		}
-		
-		moveCursor();
+			x++;
+			if (checkPossition_x()==false){
+				x--;
+			}
+			moveCursor();
 		}
 		else if (e.keyCode == 65) {//right A
-		y--;
-		if (checkPossition_y()==false){
-			y++;
-		}
-		
-		moveCursor();
+			y--;
+			if (checkPossition_y()==false){
+				y++;
+			}
+			moveCursor();
 		}
 		//changePlayer(parPlayer);
 	}
 	else {return true;}
 }
-function changePlayer(a){
+function changePlayer(){	//Change player 
 	var mark;
 	if(player==0){
 		player=1;
@@ -83,24 +133,24 @@ function changePlayer(a){
 	}
 	return(mark);
 }
-function putMark(){
-	var w="x"+x+"_"+y;
+function putMark(){ //Put cross or circle 
+	var string=x*100+y
 	var a=document.getElementById("x"+x+"_"+y);
-	var mark=changePlayer(a);
+	var mark=changePlayer();
 	a.className=mark
-	addToArray(w,mark);
-	//console.log(w);
+	addToArray(string,mark);
 }
-function addToArray(element,mark){
-	if(mark=="X"){
-	array_x[array_xIndex]=element;
-	array_xIndex++;
+function addToArray(element,mark){ //Adds id from crosses and circles to arrays
+	if(mark=="cross"){
+		array_x[array_xIndex]=element;
+		array_xIndex++;
+		//console.log(array_x);
 	}
 	else{
-	array_o[array_oIndex]=element;
-	array_oIndex++;
+		array_o[array_oIndex]=element;
+		array_oIndex++;
+		//console.log(array_o);
 	}
-console.log(array_o);
 }
 function checkPossition_x(){ // Set up range of playing board 
 	if (x< 0 || x >14){
@@ -108,26 +158,22 @@ function checkPossition_x(){ // Set up range of playing board
 	}
 	else{return true;}
 }
-function checkPossition_y(){ // Set up range of playing board for
+function checkPossition_y(){ // Set up range of playing board 
 	if (y<0 ||y>14){
 		return false;
 	}
 	else{return true;}
 }
 
-function clearStyle(){
-var a=document.getElementById("x"+x+"_"+y);
+function clearCursor(){ //clear last marker
+	var a=document.getElementById("x"+x+"_"+y);
 	a.style.color="black";
 
 }
 	
-function changeStyle(a){
+function moveCursor (){	//movng a marker of cursor
+	var a=document.getElementById("x"+x+"_"+y);
 	a.style.color="red";
-
-}
-function moveCursor (){
-var a=document.getElementById("x"+x+"_"+y);
-	changeStyle(a);
 }
 
 
