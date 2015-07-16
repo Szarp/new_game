@@ -7,8 +7,7 @@
 <script >
 
 var			//varibles for whole document
-   botArray=[0];
-   leftArray=[0];
+ 
    array_x=[0];
    array_o=[0];
    x=0;
@@ -32,60 +31,129 @@ function cykl(x){
   setTimeout( z ,50);
  }
  
- function checkIfWin(){
- right_slant();
- left_slant();
- top_bot();
- right();
+ function checkIfWin(array,mark){
+	var i=0
+		for(i=0;i<array.length;i++){
+			var poss=array[i];
+			check(poss,array,mark,1,0);
+			check(poss,array,mark,0,1);
+			check(poss,array,mark,1,1);
+		}
  }
- function checkPar_y(array){
- 	 var y1=array%100;
-	return(y1);
- 
- 
- }
- function checkPar_x(array){
- 	 var y1=array%100;
-	 var x1=(array-y1)/100;
-	return(x1);
- }
- function left_right(){
-	 var y1=array_x[0]%100;
-	 var x1=(array_x[0]-y1)/100;
-	 var k=0;
-	 var i=0;
-	 for(i=0; i<array_x.length;  i++){  
-		 var new_y=checkPar_y(array_x[i]);
-		 if(y1-5<new_y && new_y<y1+5){
-			botArray[k]=array_x[i];
-			 k++;
-		 }
+function showWhoWin(counter,mark){
+	if (counter==5){
+		if(mark==0){
+			alert("X win");
+		}
+		else{
+			alert("O win");
+		}
+	
 	}
-	console.log(botArray);
- }
- function top_bot(){
-	 var y1=array_x[0]%100;
-	 var x1=(array_x[0]-y1)/100;
-	 var k=0;
-	 var i=0;
-	 for(i=0; i<array_x.length;  i++){  
-		 var new_x=checkPar_x(array_x[i]);
-		 if(x1-5<new_x && new_x<x1+5){
-			leftArray[k]=array_x[i];
-			 k++;
+}
+ function check(poss,test,mark,a,b){
+	 var parY=poss%100;
+	 var parX=(poss-parY)/100;
+	 var counter=1;
+	 var newY=parY;
+	 var newX=parX;
+		 for (var i=0;i<4;i++){
+			newY+=a;
+			newX+=b
+			var newNumber=newX*100+newY;
+			var w=-1;
+				for(var z=0; z<test.length;z++){
+					w++;
+						if(test[w]==newNumber){
+							counter++;						
+						}
+				}
 		 }
-	}
-	console.log(leftArray);
+	showWhoWin(counter,mark);
  }
+ /*function leftCheck(test){ 
+	 var parY=test[0]%100;
+	 var parX=(test[0]-parY)/100;
+	 var counter=1;
+	 var newY=parY;
+		 for (var i=0;i<5;i++){
+			newY--;
+			var newNumber=parX*100+newY;
+			var w=-1;
+				for(var z=0; z<test.length;z++){
+					w++;
+						if(test[w]==newNumber){
+							counter++;
+							
+						}
+				}
+		 }
+	console.log(counter);
+ }
+ function botCheck(poss,test){
+	 var parY=poss%100;
+	 var parX=(poss-parY)/100;
+	 var counter=1;
+	 var newX=parX;
+	 var newY=parY;
+		 for (var i=0;i<5;i++){
+			newX++;
+			var newNumber=newX*100+newY;
+			var w=0;
+				for(var z=0; z<test.length;z++){
+					w++;
+						if(test[w]==newNumber){
+							counter++;
+							
+						}
+				}
+		 }
+	console.log(counter);
+ }
+ 
+ //slant(po,te,function(a,b){return (a++,b++)});
+ //slant(po,te,1,0);
+  function slantCheck(poss,test){
+	 var parY=poss%100;
+	 var parX=(poss-parY)/100;
+	 var counter=1;
+	 var newY=parY;
+	 var newX=parX;
+		 for (var i=0;i<5;i++){
+			newY++;
+			newX++;
+			var newNumber=newX*100+newY;
+			var w=0;
+				for(var z=0; z<test.length;z++){
+					w++;
+						if(test[w]==newNumber){
+							counter++;
+							
+						}
+				}
+		 }
+	console.log(counter);
+ }
+ function CheckWithTest(){
+	//rightCheck(201,[201,204,207,203,202,205]);
+	//rightCheck([101,102,103,104,105]);
+	//leftCheck([210,209,207]);
+	//leftCheck([205,204,206]);
+	//botCheck([300,500,400]);
+	//botCheck([200,300,500]);
+	//slantCheck([101,202,404]);
+	//slantCheck([101,202,303]);
+ 
+ }
+ */
 function runScript(e) {  // Set up keys
     if(e.keyCode==13){ //enter
-		putMark();
-		//top_bot();
-		left_right();
+		fillField();
 	}
 	if(e.keyCode==87||e.keyCode==32||e.keyCode==68||e.keyCode==83||e.keyCode==65){
 		if (e.keyCode == 32){ //Space
 			tableCreate();
+			//CheckWithTest();
 		}
 		clearCursor();
 		if (e.keyCode == 87) {//top W
@@ -95,7 +163,6 @@ function runScript(e) {  // Set up keys
 			}
 			moveCursor();
 		}
-
 		if (e.keyCode == 68) {//left D
 			y++;
 			if (checkPossition_y()==false){
@@ -121,6 +188,29 @@ function runScript(e) {  // Set up keys
 	}
 	else {return true;}
 }
+function fillField(){
+	var pointerLocation=x*100+y
+		if(status(array_x,pointerLocation)==true || status(array_o,pointerLocation)==true){
+			alert("miejsce zajête");
+			return;
+			
+		}
+		else{
+			putMark();
+			return;
+		}
+}
+function status(array,pointerLocation){
+	var w=0;
+		for(var i=0;i<array.length;i++){
+			w++;
+			if(pointerLocation==array[w]){
+				return true;
+			}
+		}
+	return false;
+
+}
 function changePlayer(){	//Change player 
 	var mark;
 	if(player==0){
@@ -145,11 +235,13 @@ function addToArray(element,mark){ //Adds id from crosses and circles to arrays
 		array_x[array_xIndex]=element;
 		array_xIndex++;
 		//console.log(array_x);
+		checkIfWin(array_x,1);
 	}
 	else{
 		array_o[array_oIndex]=element;
 		array_oIndex++;
 		//console.log(array_o);
+		checkIfWin(array_o,0);
 	}
 }
 function checkPossition_x(){ // Set up range of playing board 
@@ -167,13 +259,13 @@ function checkPossition_y(){ // Set up range of playing board
 
 function clearCursor(){ //clear last marker
 	var a=document.getElementById("x"+x+"_"+y);
-	a.style.color="black";
+	a.style.background="white";
 
 }
 	
 function moveCursor (){	//movng a marker of cursor
 	var a=document.getElementById("x"+x+"_"+y);
-	a.style.color="red";
+	a.style.background="red";
 }
 
 
@@ -200,7 +292,7 @@ function tableCreate() {
 				cell.className="normal";
                   var cellText = document.createTextNode(+j+","+i); 
 
-                cell.appendChild(cellText);
+                //cell.appendChild(cellText);
                 row.appendChild(cell);
             }
 
@@ -225,8 +317,6 @@ function tableCreate() {
 <body >
 
 
-<div id="player_1" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: blue;" ></div>
-<div id="player_2" style="position:absolute;left:320px;top:20px; width: 10px; height: 10px; background: red;" ></div>
 
 <script>
 window.onload = start(0);
