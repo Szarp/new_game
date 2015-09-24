@@ -1,0 +1,123 @@
+//	Simple example of using private variables
+//
+//	To start the stopwatch:
+//		obj.start();
+//
+//	To get the duration in milliseconds without pausing / resuming:
+//		var	x = obj.time();
+//
+//	To pause the stopwatch:
+//		var	x = obj.stop();	// Result is duration in milliseconds
+//
+//	To resume a paused stopwatch
+//		var	x = obj.start();	// Result is duration in milliseconds
+//
+//	To reset a paused stopwatch
+//		obj.stop();
+//
+var stopwatch = function(){
+var	clsStopwatch = function() {
+		// Private vars
+		var	startAt	= 0;	// Time of last start / resume. (0 if not running)
+		var	lapTime	= 0;	// Time on the clock when last stopped in milliseconds
+
+		var	now	= function() {
+				return (new Date()).getTime(); 
+			}; 
+ 
+		// Public methods
+		// Start or resume
+		this.start = function() {
+				startAt	= startAt ? startAt : now();
+			};
+
+		// Stop or pause
+		this.stop = function() {
+				// If running, update elapsed time otherwise keep it
+				lapTime	= startAt ? lapTime + now() - startAt : lapTime;
+				startAt	= 0; // Paused
+			};
+
+		// Reset
+		this.reset = function() {
+				lapTime = startAt = 0;
+			};
+
+		// Duration
+		this.time = function() {
+				return lapTime + (startAt ? now() - startAt : 0); 
+			};
+	};
+
+var x = new clsStopwatch();
+var $time;
+var clocktimer;
+var interval=100;
+var sec=3;
+var sekundy=sec;
+var jednostki=sekundy*(1000/interval)-1;
+var margin=jednostki;
+
+this.pad =function(num, size) {
+	var s = "0000" + num;
+	return s.substr(s.length - size);
+}
+
+this.formatTime =function(time) {
+	var h = m = s = ms = 0;
+	var newTime = '';
+	margin-=1;
+	var y=margin/jednostki*100;
+	//h = Math.floor( time / (60 * 60 * 1000) );
+	time = time % (60 * 60 * 1000);
+	//m = Math.floor( time / (10 * 1000) );
+	time = (sekundy * 1000)-(time % (sekundy * 1000 )); //ustawiamy ile sekund
+	s = Math.floor( time / 1000 );
+	ms = time % 1000;
+    //console.log(y,'  ',margin,'  ',s);
+		document.getElementById("margin").style.width=y+"%";
+		//if(margin==0){//console.log("1");
+		//alert("koniec");}
+		//if(s==0){console.log("2");}
+	//newTime = pad(s, 2) + ':' //+ pad(ms, 3);
+	return newTime;
+}
+
+this.show = function() {
+	$time = document.getElementById('time');
+	this.update();
+}
+this.update = function() {
+	$time.innerHTML = this.formatTime(this.x.time());
+
+}
+
+this.start = function() {
+	clocktimer = setInterval("update()",interval);
+	this.x.start();
+}
+
+this.stop = function() {
+	x.stop();
+	clearInterval(clocktimer);
+}
+          
+this.reset = function () {
+	this.stop();
+	this.x.reset();
+	//update();
+	document.getElementById("margin").style.width="100%";
+	sekundy=sec;
+	margin=jednostki;
+}
+this.outOftime = function(){
+		if(margin>0){
+			return true;
+		}
+		else{
+			return false;
+			//reset();
+		}
+}
+}
+var sW = new stopwatch();

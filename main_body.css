@@ -1,10 +1,4 @@
-.glob div{
-  position:absolute;
-  height:62px;
-  width:62px;
-  padding:0px 10px;
-  margin:3px ;
-}
+
 
 .glob p{
   height:60px;
@@ -14,11 +8,41 @@
   vertical-align: top;
   background:transparent url(intro-invoicer.png) no-repeat  0px 0px;
 }   
-html {
-  width:100%;
-  margin: 3%;
-  height:100%;
-
+.goToScoreBoardButton {
+   height:100px;
+   width:100px;
+   color:black;
+   background:linear-gradient(#669FF 10%,#6699FF 10%);
+   opacity:0.5;   
+}
+.background{
+	position: fixed;
+    top: 55px;
+    right: 325px;
+	height: 240px;
+	width: 320px;
+	background:linear-gradient(red,blue );
+	display:blocks;
+	opacity:0.5;
+    
+}
+.screen{
+    position: fixed;
+    top: 30px;
+    right: 300px;
+	height: 480px;
+	width: 320px;
+    border-style: solid;
+    border-width: 25px;
+	border-radius: 25px; 
+}
+.logo{
+	font-family: sans-serif;
+	font-size: 25px;
+	position:fixed;
+	top:152px;
+	right:452px;
+	
 }
 .glob{
   position:relative;
@@ -41,30 +65,7 @@ html {
   width:500px;
   height:500px;
 }
-.normal {
-	width: 17px;
-    height: 17px;
-	background-color: white;
-	color: white;
-	border: 1px solid black;
-}
 
-
-.circle {
-    width: 15px;
-    height: 15px;
-    border-radius: 100px;
-    border: 2px solid #000062;
-}
-.table {
-    border: 1px solid red;
-}
-.cross {
-	width: 15px;
-    height: 15px;
-    border-radius: 100px;
-    border: 2px solid #c00;
-}  
 
 
 

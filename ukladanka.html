@@ -1,0 +1,151 @@
+<html>
+<head>
+<title>ukladanka</title>
+</head>
+<body>
+<script>
+
+ var rightArray=[1,2,3,4,5,6,7,8,9,10];
+ var leftArray=["a","b","c","d","e","f","g","h","i","j"];
+ var leftId=["x0_1","x0_2","x1_3","x2_3","x3_3","x4_2","x4_1","x3_0","x2_0","x1_0"];
+ var rightId=["x0_2","x0_3","x1_4","x2_4","x3_4","x4_3","x4_2","x3_1","x2_1","x1_1"];
+ function findField(array,id){
+	for(var i=0;i<leftArray.length;i++){
+		var Id=id[i];
+		var a=document.getElementById(Id);
+		a.innerHTML=array[i];
+	}
+ }
+ 
+ function shuffle(array,id){
+	 var y=array.length;
+	 var x;
+	 //console.log(array);
+	 for(var i=0;i<array.length;i++){
+		 x=array[y-1];
+		 //console.log(x);
+		 array[y]=x;
+		 y--;
+		 //console.log(array);
+	 }
+	 var lastItem=array.length;
+	 //console.log(lastItem);
+	 var newItem=array[lastItem-1];
+	 	 var index = array.indexOf(array[array.length-1]);
+	 if (index > -1) {
+		array.splice(index, 1);
+	 }
+	 array[0]=newItem;
+	// console.log(array[0]);
+	 //console.log(array);
+	 //fill(array);
+	 change(array,id,array[0],array[5]);
+ }
+ function showArrays(){
+ console.log(leftArray,rightArray);
+ }
+  function unshuffle(array,id){
+	 var a=1;
+	 var y=0;
+	 var x;
+	 //console.log(rightArray);
+	 x=array[0];
+	 array[rightArray.length]=x;
+	 //console.log(rightArray);
+	 for(var i=0;i<rightArray.length;i++){
+		 x=array[a];
+		 array[y]=x;
+		 a++;
+		 y++;
+		 //console.log(x);
+		// console.log(rightArray);
+	 }
+	 var index = array.indexOf(array[array.length-1]);
+	 if (index > -1) {
+		array.splice(index, 1);
+	 }
+	// console.log(rightArray[0]);
+	// console.log(array);
+	 //fill(array);
+	 //findField(array);
+	 change(array,id,array[0],array[5]);
+ }
+ function change(array,id,x,y){
+	leftArray[0]=x;
+	rightArray[0]=x;
+	leftArray[5]=y;
+	rightArray[5]=y;
+	findField(array,id);
+ //console.log(x,y);
+ //console.log(leftArray,rightArray);
+ }
+ 
+ function fill(array){
+	var a=document.getElementById('pole1').innerHTML=array[0];
+	var b=document.getElementById('pole2').innerHTML=array[5];
+ }
+  function tableCreate() {
+        //body reference 
+        var body = document.getElementsByTagName("body")[0];
+
+        // create elements <table> and a <tbody>
+        var tbl     = document.createElement("table");
+		tbl.width=300+"px";
+		//tbl.style.padding=0.5+"cm";
+        var tblBody = document.createElement("tbody");
+
+        // cells creation
+        for (var j = 0; j <= 4; j++) {
+            // table row creation
+            var row = document.createElement("tr");
+
+            for (var i = 0; i < 5; i++) {
+                // create element <td> and text node 
+                //Make text node the contents of <td> element
+                // put <td> at end of the table row
+             var cell = document.createElement("td");    
+			 	cell.id="x"+j+"_"+i; 
+				cell.style.padding=0.5+"cm";
+                  var cellText = document.createTextNode("0"); 
+
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+            }
+
+            //row added to end of table body
+            tblBody.appendChild(row);
+        }
+
+        // append the <tbody> inside the <table>
+        tbl.appendChild(tblBody);
+        // put <table> in the <body>
+        body.appendChild(tbl);
+        // tbl border attribute to 
+        tbl.setAttribute("border", "2");
+		colorTable(leftId,leftArray,"yellow");
+		colorTable(rightId,rightArray,"green");
+		
+    }
+ function colorTable(id,array,color){
+	 for(var i=0;i<array.length;i++){
+		var Id=id[i];
+		var a=document.getElementById(Id);
+		a.style.backgroundColor = color;	
+	 }		
+ }
+</script>
+<div id="pole1"> </div>
+<div id="pole2"> </div>
+<div>
+	<input type="button" value="right" onclick="unshuffle(rightArray,rightId);"/>
+	<input type="button" value="left" onclick="shuffle(rightArray,rightId);"/>
+</div>
+<div style="margin-left:200px">
+	<input type="button" value="right" onclick="unshuffle(leftArray,leftId);"/>
+	<input type="button" value="left" onclick="shuffle(leftArray,leftId);"/>
+</div>
+	<input type="button" value="show" onclick="showArrays();"/>
+	<input type="button" value="tableCreate" onclick="tableCreate();"/>
+</body>
+
+</html>
