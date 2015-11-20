@@ -1,0 +1,95 @@
+<!DOCTYPE html>	
+<html>
+<head>
+</head>
+<body>
+<script>
+var table=[];
+
+function saveDNAtoTable(obj){
+	var l=Object.keys(obj).length
+	for(var i=0;i<l;i++){
+	table[table.length]=new DNA;
+	//console.log(obj[Object.keys(obj)[i]]);
+	table[table.length-1].array=obj[Object.keys(obj)[i]];
+	//var poss=table.length-1
+	
+	}
+	console.log(table);
+	return	table;
+ 
+}
+function DNA(){
+	this.unwind=function(){
+		var array_5=[];
+		var array_3=[];
+		for(var i=0;i<this.array.length;i++){
+			var bin =this.array[i]>>1;
+			var bin2=3-bin;
+			array_5[i]=this.array[i]>>1;
+			array_3[i]=bin2;
+		}
+		var unwrappedDNA={
+			array_5: array_5,
+			array_3: array_3
+		};
+		console.log(this.array);
+		return unwrappedDNA;
+	}
+	this.addBase=function(obj){
+		var l=obj['array_5'].length;
+		for (var i=0;i<l;i++){
+			//console.log(mark);
+			var secondary=this.findComplementarity(obj['array_5'][i]);
+			var main=this.findComplementarity(obj['array_3'][i]);
+			 obj['array_5'][i]=this.conectNucleobase(obj['array_5'][i],secondary);
+			obj['array_3'][i]=this.conectNucleobase(main,obj['array_3'][i]);
+		}
+		var copiedDNA=[obj['array_5'],obj['array_3']];
+		return copiedDNA;
+		
+	}
+	this.conectNucleobase=function(main,secondary){
+		if(main==0){main=1;}
+		else{
+			main=main<<1;
+			main=main|secondary;
+		}
+		return main;
+	}
+	
+	this.findComplementarity=function(mark){
+		var k=3-mark;
+		return k;
+	}
+ }
+
+ function copyDNA(obj){
+	var x=polymer.unwind(obj);
+	var y=polymer.addBase(x);
+	return
+ } 
+ //sprawdzenie za pomoc¹ dodawania do 3 a=011,t=100,g=010,c=101
+	table[0] = new DNA();
+	var DNA1 =new DNA();
+//var polymer = new replicateDNA();
+// DNA1.array=["ta","cg","gc","cg","ta","at","cg","gc","ta","gc"];
+ table[0].array=[1,6,2,5];//A,T,C,G
+ DNA1.array=[1,6,2,5];//A,T,C,G
+ function test_unwind(){
+	//var log=DNA1.unwind();
+	var x=polymer.unwind(table[0].array);
+	var y=polymer.addBase(x);
+	//console.log(saveDNAtoTable(y));
+	console.log(y);
+	 }
+function test(){
+	var x=DNA1.unwind();
+	
+
+}
+</script>
+<input type="button" value="left" onclick="test_unwind();"/>
+<input type="button" value="test" onclick="test();"/>
+</body>
+</html>
