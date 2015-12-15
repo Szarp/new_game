@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>matma</title>
+</head>
+<body>
+<script>
+function suma_cyfr(){
+// przypisanie obiektu pola tekstowego do zmiennej
+var a=0;
+var b=0;
+var number  = document.getElementById('lolz').value;
+b=number.length;
+number=Number(number);
+/*do{
+	a=Math.ceil(number/10);
+	b++;
+}while (i<10);*/
+
+	var x,y,z; 
+	var z=0;
+	var l=1;
+	//console.log(l);
+	for (var i=0; i<=b;i++){
+	
+		x=10*l;
+		y=number%x;
+		number-=y;
+		y=10*y/x;
+		l=l*10;
+		z+=y;
+		console.log(x,y,z);	
+	}
+	document.getElementById('myTextarea').value = z;
+	return z;
+}
+ 
+
+
+ </script>
+<div>
+    <input type="number" value="" id="lolz"/>
+    <input type="button" value="click" OnClick="suma_cyfr()"/>
+	<textarea id="myTextarea" name="something">tutaj wynik</textarea>
+
+
+</div>
+
+</body>
+
+</html>

@@ -17,9 +17,23 @@ function saveDNAtoTable(obj){
 	}
 	console.log(table);
 	return	table;
- 
 }
+function cellShell(obj){
+	var permeability = ["DNA","atom"]  //przepuszczalnoœæ
+	for (var i =0;i<permeability.length;i++){
+		if (obj.kind == permeability[i]){
+			transmit(); //przepuszczaæ
+		}
+	}
+	return "Can't transmit";
+
+}
+
+
 function DNA(){
+	this.kind=function(){
+		return "DNA";
+	}
 	this.unwind=function(){
 		var array_5=[];
 		var array_3=[];

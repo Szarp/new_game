@@ -5,85 +5,94 @@
 <body>
 <script>
 
- var rightArray=[1,2,3,4,5,6,7,8,9,10];
- var leftArray=["a","b","c","d","e","f","g","h","i","j"];
- var leftId=["x0_1","x0_2","x1_3","x2_3","x3_3","x4_2","x4_1","x3_0","x2_0","x1_0"];
- var rightId=["x0_2","x0_3","x1_4","x2_4","x3_4","x4_3","x4_2","x3_1","x2_1","x1_1"];
- function findField(array,id){
-	for(var i=0;i<leftArray.length;i++){
-		var Id=id[i];
-		var a=document.getElementById(Id);
-		a.innerHTML=array[i];
+ 
+ /*var rightArray=[1,2,3,4,5,6,7,8,9,f];
+ var leftArray=["a","b","c","d","e","f","g","h","i",6];
+ var leftId=["x4_1","x3_0","x2_0","x1_0","x0_1","x0_2","x1_3","x2_3","x3_3"];
+ var rightId=["x0_3","x1_4","x2_4","x3_4","x4_3","x4_2","x3_1","x2_1","x1_1"];*/
+
+
+ 
+ function circle(){ 
+	this.show=function(){
+		for(var i=0;i<this.array.length;i++){
+			var Id=this.idList[i];
+			var cssStyle=this.array[i];
+			var a=document.getElementById(Id);
+			a.innerHTML=this.array[i];
+			a.className="circle-"+cssStyle;
+		}
+	 }
+ this.moveLeft=function (){
+	var y=this.array.length;
+	var x;
+	for(var i=0;i<this.array.length;i++){
+		x=this.array[y-1];
+		this.array[y]=x;
+		y--;
 	}
+	var lastItem=this.array.length-1;
+	this.array[0]=this.array[lastItem];
+	this.deleteLastItem();
+	var fields=this.getFields();
+	return fields;
+ }
+ this.rotate=function(){
+	var y=0;
+	var a=1;
+	for(var i=0;i<this.array.length;i++){
+		x=this.array[a];
+		this.array[y]=x;
+		a++;
+		y++;
+	}
+ }  
+ this.deleteLastItem=function(){
+	var index=this.array.length-1;
+	this.array.splice(index, 1);
+	
+ }
+ this.moveRight=function(){
+	 var x;
+	 x=this.array[0];
+	 this.array[this.array.length]=x;
+	 this.rotate();
+	 this.deleteLastItem();
+	 var fields=this.getFields();
+	 return fields;
+ }
+ this.getFields=function(){
+	return{
+		x:this.array[5],
+		y:this.array[9]
+	};
  }
  
- function shuffle(array,id){
-	 var y=array.length;
-	 var x;
-	 //console.log(array);
-	 for(var i=0;i<array.length;i++){
-		 x=array[y-1];
-		 //console.log(x);
-		 array[y]=x;
-		 y--;
-		 //console.log(array);
-	 }
-	 var lastItem=array.length;
-	 //console.log(lastItem);
-	 var newItem=array[lastItem-1];
-	 	 var index = array.indexOf(array[array.length-1]);
-	 if (index > -1) {
-		array.splice(index, 1);
-	 }
-	 array[0]=newItem;
-	// console.log(array[0]);
-	 //console.log(array);
-	 //fill(array);
-	 change(array,id,array[0],array[5]);
- }
- function showArrays(){
- console.log(leftArray,rightArray);
- }
-  function unshuffle(array,id){
-	 var a=1;
-	 var y=0;
-	 var x;
-	 //console.log(rightArray);
-	 x=array[0];
-	 array[rightArray.length]=x;
-	 //console.log(rightArray);
-	 for(var i=0;i<rightArray.length;i++){
-		 x=array[a];
-		 array[y]=x;
-		 a++;
-		 y++;
-		 //console.log(x);
-		// console.log(rightArray);
-	 }
-	 var index = array.indexOf(array[array.length-1]);
-	 if (index > -1) {
-		array.splice(index, 1);
-	 }
-	// console.log(rightArray[0]);
-	// console.log(array);
-	 //fill(array);
-	 //findField(array);
-	 change(array,id,array[0],array[5]);
- }
- function change(array,id,x,y){
-	leftArray[0]=x;
-	rightArray[0]=x;
-	leftArray[5]=y;
-	rightArray[5]=y;
-	findField(array,id);
- //console.log(x,y);
- //console.log(leftArray,rightArray);
- }
+ /*this.getFields=function(){
+	return[
+		this.array[5],
+		this.array[9]
+];
+ }*/
+ this.cross=function(fields){
+	//console.log(this.array[5],this.array[9]);
+	//console.log("bb",fields[0]);
+	this.array[5]=fields.y;
+	this.array[9]=fields.x;
+	this.show;
+	}
+};
+ var rightCir = new circle();
  
- function fill(array){
-	var a=document.getElementById('pole1').innerHTML=array[0];
-	var b=document.getElementById('pole2').innerHTML=array[5];
- }
+ rightCir.array=["a","a","a","a","a","b","b","b","b","c"]; 
+	rightCir.idList=["x0_3","x1_4","x2_4","x3_4","x4_3","x4_2","x3_1","x2_1","x1_1","x0_2"];
+	//crossDown
+	
+var leftCir = new circle();
+ 
+ leftCir.array=["c","c","c","c","c","d","d","d","d","b"];
+	leftCir.idList=["x4_1","x3_0","x2_0","x1_0","x0_1","x0_2","x1_3","x2_3","x3_3","x4_2"];
+
   function tableCreate() {
         //body reference 
         var body = document.getElementsByTagName("body")[0];
@@ -106,7 +115,8 @@
              var cell = document.createElement("td");    
 			 	cell.id="x"+j+"_"+i; 
 				cell.style.padding=0.5+"cm";
-                  var cellText = document.createTextNode("0"); 
+                  // var cellText = document.createTextNode(j+"_"+i); 
+				  var cellText = document.createTextNode("0"); 
 
                 cell.appendChild(cellText);
                 row.appendChild(cell);
@@ -122,27 +132,81 @@
         body.appendChild(tbl);
         // tbl border attribute to 
         tbl.setAttribute("border", "2");
-		colorTable(leftId,leftArray,"yellow");
-		colorTable(rightId,rightArray,"green");
+		//colorTable(leftId,leftArray,"yellow");
+	//	colorTable(rightId,rightArray,"green");
 		
     }
- function colorTable(id,array,color){
+ /*function colorTable(id,array,color){
 	 for(var i=0;i<array.length;i++){
 		var Id=id[i];
 		var a=document.getElementById(Id);
 		a.style.backgroundColor = color;	
 	 }		
+ }*/
+
+ function left_right(){
+	var par=leftCir.moveLeft();
+    rightCir.cross(par);   
+	leftCir.show();
  }
-</script>
+ function left_left(){
+	var par=leftCir.moveRight();
+	rightCir.cross(par);   
+	leftCir.show();
+ } 
+ function right_right(){
+	var par=rightCir.moveLeft();
+	leftCir.cross(par);   
+	rightCir.show();
+ } 
+ function right_left(){
+	var par=rightCir.moveRight();
+	leftCir.cross(par);   
+	rightCir.show();
+ }
+ </script>
+ <style>
+ .circle-a {
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    border: 2px solid green;
+	background-color: green;
+}
+ .circle-b {
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    border: 2px solid red;
+	background-color: red;
+}
+.circle-c {
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    border: 2px solid blue;
+	background-color: blue;
+}
+.circle-d {
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    border: 2px solid yellow;
+	background-color: yellow;
+}
+ </style>
 <div id="pole1"> </div>
 <div id="pole2"> </div>
 <div>
-	<input type="button" value="right" onclick="unshuffle(rightArray,rightId);"/>
-	<input type="button" value="left" onclick="shuffle(rightArray,rightId);"/>
+	<input type="button" value="left" onclick="left_left();"/>
+	<input type="button" value="right" onclick="left_right();"/>
+
+
 </div>
 <div style="margin-left:200px">
-	<input type="button" value="right" onclick="unshuffle(leftArray,leftId);"/>
-	<input type="button" value="left" onclick="shuffle(leftArray,leftId);"/>
+	<input type="button" value="left" onclick="right_left();"/>
+	<input type="button" value="right" onclick="right_right();"/>
+
 </div>
 	<input type="button" value="show" onclick="showArrays();"/>
 	<input type="button" value="tableCreate" onclick="tableCreate();"/>
