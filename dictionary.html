@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Dictionary+testy</title>
+</head>
+<body>
+<script>
+var tableAng={};
+var tablePol={};
+
+
+ function addNewWord(tab){
+   tableAng[tab.ang]=tab.pol;
+   tablePol[tab.pol]=tab.ang;
+  console.log("tabela ang",tableAng,"tabela pol",tablePol);
+  return;
+ }
+  function findWord(name){
+		if(tableAng[name]){//gdy nie znajdzie w pierwszym, szuka w drugim
+			return tableAng[name];
+		}
+		else{ 
+			return tablePol[name];
+		}	
+  }
+  function a(name){
+	var a=findWord(name);
+	console.log("szukane s³owo",a);
+	return a;
+  }
+  function test1(){
+	//addNewWord({ang:'tree',pol:'drzewo'})
+	assert((tableAng['tree']=='drzewo'), "blad tree");
+  }
+  var assert = function (value,msg){
+	if(!value){
+	  throw(msg || (value +"does not equal true"));
+    }
+  }
+  var assertEqual = function (val_1,val_2,msg){
+	if(val_1!==val_2){
+	  throw(msg || (val_1 +" does not equal to " + val_2));
+    }
+  }
+  function test2(){
+  addNewWord({ang:'tree',pol:'drzewo'});
+  assertEqual(a('tree'),'tree');
+  
+  }
+  function testy(){
+	  try{
+		//test1();
+		test2();
+	  }
+	  catch(e){ console.log(e);}
+	  
+  }
+ </script>
+<div style="margin-left:200px">
+	<input type="button" value="testy" onclick="testy()"/>
+</div>
+	<input type="button" value="find" onclick="a('drzewo');"/>
+</body>
+
+</html>
